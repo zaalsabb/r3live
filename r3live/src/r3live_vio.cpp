@@ -506,6 +506,18 @@ void R3LIVE::publish_camera_odom( std::shared_ptr< Image_frame > &image, double 
     camera_odom.pose.pose.position.z = odom_t( 2 );
     pub_odom_cam.publish( camera_odom );
 
+    static tf::TransformBroadcaster br;
+    tf::Transform                   transform;
+    tf::Quaternion                  q;
+    transform.setOrigin(
+        tf::Vector3( camera_odom.pose.pose.position.x, camera_odom.pose.pose.position.y, camera_odom.pose.pose.position.z ) );
+    q.setW( camera_odom.pose.pose.orientation.w );
+    q.setX( camera_odom.pose.pose.orientation.x );
+    q.setY( camera_odom.pose.pose.orientation.y );
+    q.setZ( camera_odom.pose.pose.orientation.z );
+    transform.setRotation( q );
+    br.sendTransform( tf::StampedTransform( transform, ros::Time().fromSec( msg_time ), "world", "/camera_odom" ) );
+
     geometry_msgs::PoseStamped msg_pose;
     msg_pose.header.stamp = ros::Time().fromSec( msg_time );
     msg_pose.header.frame_id = "world";
@@ -1245,6 +1257,7 @@ void R3LIVE::service_VIO_update()
         publish_camera_odom( img_pose, message_time );
         // publish_track_img( op_track.m_debug_track_img, display_cost_time );
         publish_track_img( img_pose->m_raw_img, display_cost_time );
+	    publish_track_pts(op_track);
 
         if ( m_if_pub_raw_img )
         {

@@ -12,6 +12,7 @@ add_definitions(-DROOT_DIR=\"${CMAKE_CURRENT_SOURCE_DIR}/\")
 
 # Add OpenCV if available
 # set(OpenCV_DIR "/home/zivlin/opt/opencv/build")
+set(OpenCV_DIR /home/zaid/third-party-library-folder/opencv/build)
 FIND_PACKAGE(Boost REQUIRED COMPONENTS filesystem iostreams program_options system serialization)
 if(Boost_FOUND)
 	INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
@@ -30,7 +31,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 # find_package(Ceres REQUIRED)
 find_package(PCL REQUIRED)
-find_package(OpenCV REQUIRED)
+find_package(OpenCV 3.4.16 REQUIRED)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}   ${OpenMP_C_FLAGS}")
