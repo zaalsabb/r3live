@@ -1,6 +1,29 @@
 # R3LIVE
 ## A Robust, Real-time, RGB-colored, LiDAR-Inertial-Visual tightly-coupled state Estimation and mapping package
 
+## CVISS FORK NOTES
+**Note 1**: To switch ROS OpenCV version to version `3.4.16`, do the following:
+```
+mkdir ~/third-party-library-folder && cd ~/third-party-library-folder
+git clone -b 3.4.16 https://github.com/opencv/opencv_contrib.git 
+git clone -b 3.4.16 https://github.com/opencv/opencv.git
+cd opencv
+mkdir build
+cd build
+cmake -D CMAKE_BUILD_TYPE=RELEASE \
+      -D CMAKE_INSTALL_PREFIX=/usr/local \
+      -D INSTALL_C_EXAMPLES=ON \
+      -D INSTALL_PYTHON_EXAMPLES=ON \
+      -D WITH_TBB=ON \-D WITH_V4L=ON \-D WITH_QT=ON \-D WITH_OPENGL=ON \
+      -D WITH_CUDA=ON \-D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+      -D BUILD_EXAMPLES=OFF ..
+make -j $(nproc)
+sudo make install
+```
+The line `find_package(OpenCV 3.4.16 REQUIRED)` was added to the `CMakeList.txt` file so that catkin uses the correct OpenCV version.
+
+**Note 2**: The r3live code was modified to publish the VIO pose of the camera to the `camera_odom` frame.
+
 ## News
 
 **[Jan 28, 2022] Release of our hardware design**: The CAD files of our hardware design are now available in [rxlive_handheld](https://github.com/ziv-lin/rxlive_handheld). You can download, print, edit and  assemble our handheld device by following the guides.
