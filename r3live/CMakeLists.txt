@@ -12,7 +12,7 @@ add_definitions(-DROOT_DIR=\"${CMAKE_CURRENT_SOURCE_DIR}/\")
 
 # Add OpenCV if available
 # set(OpenCV_DIR "/home/zivlin/opt/opencv/build")
-set(OpenCV_DIR /home/zaid/third-party-library-folder/opencv/build)
+set(OpenCV_DIR $HOME/third-party-library-folder/opencv/build)
 FIND_PACKAGE(Boost REQUIRED COMPONENTS filesystem iostreams program_options system serialization)
 if(Boost_FOUND)
 	INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})

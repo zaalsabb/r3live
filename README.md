@@ -22,7 +22,7 @@ sudo make install
 ```
 **Restart your computer afterwards...**
 
-The line `find_package(OpenCV 3.4.16 REQUIRED)` was added to the `CMakeList.txt` file so that catkin uses the correct OpenCV version.
+The lines `find_package(OpenCV 3.4.16 REQUIRED)` and `set(OpenCV_DIR $HOME/third-party-library-folder/opencv/build)` were added to the `CMakeList.txt` file so that catkin uses the correct OpenCV version.
 
 **Note 2**: If you encounter an error during build that has to do with `flann` and includes the following line:
 ```
