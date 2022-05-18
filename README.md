@@ -1,6 +1,4 @@
 # R3LIVE
-## A Robust, Real-time, RGB-colored, LiDAR-Inertial-Visual tightly-coupled state Estimation and mapping package
-
 ## CVISS FORK NOTES
 **Note 1**: To switch ROS OpenCV version to `3.4.16` for r3live compatibility, do the following:
 ```
@@ -39,6 +37,7 @@ sudo ln -s /usr/include/lz4hc.h /usr/include/flann/ext/lz4hc.h
 
 **Note 3**: The r3live code was modified to publish the VIO pose of the camera to the `camera_odom` frame.
 
+## A Robust, Real-time, RGB-colored, LiDAR-Inertial-Visual tightly-coupled state Estimation and mapping package
 ## News
 
 **[Jan 28, 2022] Release of our hardware design**: The CAD files of our hardware design are now available in [rxlive_handheld](https://github.com/ziv-lin/rxlive_handheld). You can download, print, edit and  assemble our handheld device by following the guides.
