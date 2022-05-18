@@ -1,6 +1,10 @@
 # R3LIVE
-## CVISS FORK NOTES
-**Note 1**: To switch ROS OpenCV version to `3.4.16` for r3live compatibility, do the following:
+## CVISS FORK NOTES (INSTALLATION FIXES)
+**Note 1**: r3live requires OpenCV >= 3.3. Use this command to check your opencv version:
+```
+pkg-config --modversion opencv
+```
+To switch ROS OpenCV version to `3.4.16` for r3live compatibility, do the following:
 ```
 mkdir ~/third-party-library-folder && cd ~/third-party-library-folder
 git clone -b 3.4.16 https://github.com/opencv/opencv_contrib.git 
@@ -20,7 +24,7 @@ sudo make install
 ```
 **Restart your computer afterwards...**
 
-The lines `find_package(OpenCV 3.4.16 REQUIRED)` and `set(OpenCV_DIR $HOME/third-party-library-folder/opencv/build)` were added to the `CMakeList.txt` file so that catkin uses the correct OpenCV version.
+The lines `find_package(OpenCV 3.4.16 REQUIRED)` and `set(OpenCV_DIR $HOME/third-party-library-folder/opencv/build)` were added to the `CMakeList.txt` file so that catkin uses the correct OpenCV version when building r3live. Note that you may still encounter runtime errors even if the build passes if your opencv version is not >= 3.3.
 
 **Note 2**: If you encounter an error during build that has to do with `flann` and includes the following line:
 ```
