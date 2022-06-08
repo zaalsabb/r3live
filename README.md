@@ -18,6 +18,8 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D INSTALL_PYTHON_EXAMPLES=ON \
       -D WITH_TBB=ON \-D WITH_V4L=ON \-D WITH_QT=ON \-D WITH_OPENGL=ON \
       -D WITH_CUDA=ON \-D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+      -D ENABLE_CXX11=ON \
+      -D CMAKE_C_COMPILER=/usr/bin/gcc-5 \      
       -D BUILD_EXAMPLES=OFF ..
 make -j $(nproc)
 sudo make install
