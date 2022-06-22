@@ -958,10 +958,17 @@ int R3LIVE::service_LIO_update()
                 }
                 sensor_msgs::PointCloud2 laserCloudFullRes3;
                 pcl::toROSMsg( *laserCloudFullResColor, laserCloudFullRes3 );
-                // laserCloudFullRes3.header.stamp = ros::Time::now(); //.fromSec(last_timestamp_lidar);
-                laserCloudFullRes3.header.stamp.fromSec( Measures.lidar_end_time );
+                laserCloudFullRes3.header.stamp.fromSec(last_timestamp_lidar);
+                // laserCloudFullRes3.header.stamp.fromSec( Measures.lidar_end_time );
                 laserCloudFullRes3.header.frame_id = "world"; // world; camera_init
                 pubLaserCloudFullRes.publish( laserCloudFullRes3 );
+
+                sensor_msgs::PointCloud2 laserCloudFullRes3_body;
+                pcl::toROSMsg( *laserCloudFullRes2, laserCloudFullRes3_body );
+                // laserCloudFullRes3_body.header.stamp.fromSec(last_timestamp_lidar);
+                laserCloudFullRes3_body.header.stamp.fromSec( Measures.lidar_end_time );
+                laserCloudFullRes3_body.header.frame_id = "aft_mapped"; // world; camera_init
+                pubLaserCloudFullRes_body.publish( laserCloudFullRes3_body );                
             }
 
             if ( g_camera_lidar_queue.m_if_have_camera_data || (g_LiDAR_frame_index < 100) ) // append point cloud to global map.
@@ -1019,7 +1026,8 @@ int R3LIVE::service_LIO_update()
             geometry_msgs::Quaternion geoQuat = tf::createQuaternionMsgFromRollPitchYaw( euler_cur( 0 ), euler_cur( 1 ), euler_cur( 2 ) );
             odomAftMapped.header.frame_id = "world";
             odomAftMapped.child_frame_id = "/aft_mapped";
-            odomAftMapped.header.stamp = ros::Time::now(); // ros::Time().fromSec(last_timestamp_lidar);
+            // odomAftMapped.header.stamp.fromSec(last_timestamp_lidar);
+            odomAftMapped.header.stamp.fromSec(Measures.lidar_end_time);
             odomAftMapped.pose.pose.orientation.x = geoQuat.x;
             odomAftMapped.pose.pose.orientation.y = geoQuat.y;
             odomAftMapped.pose.pose.orientation.z = geoQuat.z;

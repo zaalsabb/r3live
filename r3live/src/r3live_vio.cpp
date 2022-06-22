@@ -1077,7 +1077,7 @@ void R3LIVE::publish_render_pts( ros::Publisher &pts_pub, Global_map &m_map_rgb_
     }
     pcl::toROSMsg( pc_rgb, ros_pc_msg );
     ros_pc_msg.header.frame_id = "world";       // world; camera_init
-    ros_pc_msg.header.stamp = ros::Time::now(); //.fromSec(last_timestamp_lidar);
+    ros_pc_msg.header.stamp.fromSec(last_timestamp_lidar);
     pts_pub.publish( ros_pc_msg );
 }
 
@@ -1253,7 +1253,7 @@ void R3LIVE::service_VIO_update()
         tim.tic( "Pub" );
         double display_cost_time = std::accumulate( frame_cost_time_vec.begin(), frame_cost_time_vec.end(), 0.0 ) / frame_cost_time_vec.size();
         g_vio_frame_cost_time = display_cost_time;
-        // publish_render_pts( m_pub_render_rgb_pts, m_map_rgb_pts );
+        publish_render_pts( m_pub_render_rgb_pts, m_map_rgb_pts );
         publish_camera_odom( img_pose, message_time );
         // publish_track_img( op_track.m_debug_track_img, display_cost_time );
         publish_track_img( img_pose->m_raw_img, display_cost_time );

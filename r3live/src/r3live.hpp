@@ -198,6 +198,7 @@ public:
     KD_TREE ikdtree;
 
     ros::Publisher pubLaserCloudFullRes;
+    ros::Publisher pubLaserCloudFullRes_body;
     ros::Publisher pubLaserCloudEffect;
     ros::Publisher pubLaserCloudMap;
     ros::Publisher pubOdomAftMapped;
@@ -315,6 +316,7 @@ public:
     R3LIVE()
     {
         pubLaserCloudFullRes = m_ros_node_handle.advertise<sensor_msgs::PointCloud2>("/cloud_registered", 100);
+        pubLaserCloudFullRes_body = m_ros_node_handle.advertise<sensor_msgs::PointCloud2>("/cloud_registered_body", 100);
         pubLaserCloudEffect = m_ros_node_handle.advertise<sensor_msgs::PointCloud2>("/cloud_effected", 100);
         pubLaserCloudMap = m_ros_node_handle.advertise<sensor_msgs::PointCloud2>("/Laser_map", 100);
         pubOdomAftMapped = m_ros_node_handle.advertise<nav_msgs::Odometry>("/aft_mapped_to_init", 10);
