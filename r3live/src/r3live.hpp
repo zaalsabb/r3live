@@ -281,6 +281,9 @@ public:
     std::vector<std::shared_ptr<RGB_pts>> m_last_added_rgb_pts_vec;
     std::string m_map_output_dir;
     std::shared_ptr<std::shared_future<void> > m_render_thread = nullptr;
+
+    // show gui panel when r3live is running
+    bool show_gui;
     
     // VIO subsystem related
     void load_vio_parameters();
@@ -330,6 +333,8 @@ public:
         pub_path_cam = m_ros_node_handle.advertise<nav_msgs::Path>("/camera_path", 10);
         std::string LiDAR_pointcloud_topic, IMU_topic, IMAGE_topic, IMAGE_topic_compressed;
 
+        get_ros_parameter(m_ros_node_handle, "show_gui", show_gui, true );
+        
         get_ros_parameter<std::string>(m_ros_node_handle, "/LiDAR_pointcloud_topic", LiDAR_pointcloud_topic, std::string("/laser_cloud_flat") );
         get_ros_parameter<std::string>(m_ros_node_handle, "/IMU_topic", IMU_topic, std::string("/livox/imu") );
         get_ros_parameter<std::string>(m_ros_node_handle, "/Image_topic", IMAGE_topic, std::string("/camera/image_color") );

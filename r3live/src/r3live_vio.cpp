@@ -1104,7 +1104,9 @@ void R3LIVE::service_VIO_update()
     op_track.m_maximum_vio_tracked_pts = m_maximum_vio_tracked_pts;
     m_map_rgb_pts.m_minimum_depth_for_projection = m_tracker_minimum_depth;
     m_map_rgb_pts.m_maximum_depth_for_projection = m_tracker_maximum_depth;
-    cv::imshow( "Control panel", generate_control_panel_img().clone() );
+    if (show_gui){
+        cv::imshow( "Control panel", generate_control_panel_img().clone() );
+    }
     Common_tools::Timer tim;
     cv::Mat             img_get;
     while ( ros::ok() )
