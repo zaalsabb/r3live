@@ -1,47 +1,4 @@
 # R3LIVE
-## CVISS FORK NOTES (INSTALLATION FIXES)
-**Note 1**: r3live requires OpenCV >= 3.3. Use this command to check your opencv version:
-```
-pkg-config --modversion opencv
-```
-To switch ROS OpenCV version to `3.4.16` for r3live compatibility, do the following:
-```
-mkdir ~/third-party-library-folder && cd ~/third-party-library-folder
-git clone -b 3.4.16 https://github.com/opencv/opencv_contrib.git 
-git clone -b 3.4.16 https://github.com/opencv/opencv.git
-cd opencv
-mkdir build
-cd build
-cmake -D CMAKE_BUILD_TYPE=RELEASE \
-      -D CMAKE_INSTALL_PREFIX=/usr/local \
-      -D INSTALL_C_EXAMPLES=ON \
-      -D INSTALL_PYTHON_EXAMPLES=ON \
-      -D WITH_TBB=ON \-D WITH_V4L=ON \-D WITH_QT=ON \-D WITH_OPENGL=ON \
-      -D WITH_CUDA=ON \-D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
-      -D ENABLE_CXX11=ON \
-      -D CMAKE_C_COMPILER=/usr/bin/gcc-5 \      
-      -D BUILD_EXAMPLES=OFF ..
-make -j $(nproc)
-sudo make install
-```
-**Restart your computer afterwards...**
-
-The lines `find_package(OpenCV 3.4.16 REQUIRED)` and `set(OpenCV_DIR $HOME/third-party-library-folder/opencv/build)` were added to the `CMakeList.txt` file so that catkin uses the correct OpenCV version when building r3live. Note that you may still encounter runtime errors even if the build passes if your opencv version is not >= 3.3.
-
-**Note 2**: If you encounter an error during build that has to do with `flann` and includes the following line:
-```
-/usr/include/flann/ext/lz4.h:249:72: error: conflicting declaration ‘typedef struct LZ4_streamDecode_t LZ4_streamDecode_t’
- typedef struct { unsigned long long table[LZ4_STREAMDECODESIZE_U64]; } LZ4_streamDecode_t;
-```
-Then run the following commands to fix the `LZ4` symbolic links (taken from here: ![LZ4 catkin build error](https://github.com/ethz-asl/lidar_align/issues/16)):
-```
-sudo mv /usr/include/flann/ext/lz4.h /usr/include/flann/ext/lz4.h.bak
-sudo mv /usr/include/flann/ext/lz4hc.h /usr/include/flann/ext/lz4.h.bak
-sudo ln -s /usr/include/lz4.h /usr/include/flann/ext/lz4.h
-sudo ln -s /usr/include/lz4hc.h /usr/include/flann/ext/lz4hc.h
-```
-
-**Note 3**: The r3live code was modified to publish the VIO pose of the camera to the `camera_odom` frame.
 
 ## A Robust, Real-time, RGB-colored, LiDAR-Inertial-Visual tightly-coupled state Estimation and mapping package
 ## News
