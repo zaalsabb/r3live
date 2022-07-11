@@ -971,8 +971,6 @@ bool R3LIVE::vio_photometric( StatesGroup &state_in, Rgbmap_tracker &op_track, s
 void R3LIVE::service_pub_rgb_maps()
 {
     int last_publish_map_idx = -3e8;
-    int sleep_time_aft_pub = 10;
-    int number_of_pts_per_topic = 1000;
     if ( number_of_pts_per_topic < 0 )
     {
         return;
@@ -1022,7 +1020,9 @@ void R3LIVE::service_pub_rgb_maps()
                 m_pub_rgb_render_pointcloud_ptr_vec[ cur_topic_idx ]->publish( ros_pc_msg );
                 std::this_thread::sleep_for( std::chrono::microseconds( sleep_time_aft_pub ) );
                 ros::spinOnce();
-                cur_topic_idx++;
+                if (cur_topic_idx < number_of_RGB_topics-1){
+                    cur_topic_idx++;
+                }
             }
         }
 
@@ -1039,7 +1039,9 @@ void R3LIVE::service_pub_rgb_maps()
         std::this_thread::sleep_for( std::chrono::microseconds( sleep_time_aft_pub ) );
         ros::spinOnce();
         m_pub_rgb_render_pointcloud_ptr_vec[ cur_topic_idx ]->publish( ros_pc_msg );
-        cur_topic_idx++;
+        if (cur_topic_idx < number_of_RGB_topics-1){
+            cur_topic_idx++;
+        }
         if ( cur_topic_idx >= 45 ) // Maximum pointcloud topics = 45.
         {
             number_of_pts_per_topic *= 1.5;
@@ -1079,6 +1081,7 @@ void R3LIVE::publish_render_pts( ros::Publisher &pts_pub, Global_map &m_map_rgb_
     ros_pc_msg.header.frame_id = "world";       // world; camera_init
     ros_pc_msg.header.stamp.fromSec(last_timestamp_lidar);
     pts_pub.publish( ros_pc_msg );
+
 }
 
 char R3LIVE::cv_keyboard_callback()

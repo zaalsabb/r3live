@@ -284,7 +284,10 @@ public:
 
     // show gui panel when r3live is running
     bool show_gui;
-    
+    int number_of_pts_per_topic = 1000;
+    int sleep_time_aft_pub = 10;   
+    int number_of_RGB_topics = 100;
+
     // VIO subsystem related
     void load_vio_parameters();
     void set_initial_camera_parameter(StatesGroup &state,
@@ -333,8 +336,11 @@ public:
         pub_path_cam = m_ros_node_handle.advertise<nav_msgs::Path>("/camera_path", 10);
         std::string LiDAR_pointcloud_topic, IMU_topic, IMAGE_topic, IMAGE_topic_compressed;
 
-        get_ros_parameter(m_ros_node_handle, "show_gui", show_gui, true );
-        
+        get_ros_parameter(m_ros_node_handle,  "show_gui", show_gui, true );
+        get_ros_parameter( m_ros_node_handle, "number_of_pts_per_topic", number_of_pts_per_topic, 1000 );
+        get_ros_parameter( m_ros_node_handle, "sleep_time_aft_pub", sleep_time_aft_pub, 10 );
+        get_ros_parameter( m_ros_node_handle, "number_of_RGB_topics", number_of_RGB_topics, 100 );
+
         get_ros_parameter<std::string>(m_ros_node_handle, "/LiDAR_pointcloud_topic", LiDAR_pointcloud_topic, std::string("/laser_cloud_flat") );
         get_ros_parameter<std::string>(m_ros_node_handle, "/IMU_topic", IMU_topic, std::string("/livox/imu") );
         get_ros_parameter<std::string>(m_ros_node_handle, "/Image_topic", IMAGE_topic, std::string("/camera/image_color") );
@@ -378,7 +384,9 @@ public:
             get_ros_parameter( m_ros_node_handle, "r3live_common/esikf_iter_times", esikf_iter_times, 2 );
             get_ros_parameter( m_ros_node_handle, "r3live_common/estimate_i2c_extrinsic", m_if_estimate_i2c_extrinsic, 0 );
             get_ros_parameter( m_ros_node_handle, "r3live_common/estimate_intrinsic", m_if_estimate_intrinsic, 0 );
-            get_ros_parameter( m_ros_node_handle, "r3live_common/maximum_vio_tracked_pts", m_maximum_vio_tracked_pts, 600 );
+            get_ros_parameter( m_ros_node_handle, "r3live_common/maximum_vio_tracked_pts", m_maximum_vio_tracked_pts, 600 );        
+
+            
         }
         if ( 1 )
         {
