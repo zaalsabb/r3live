@@ -152,6 +152,10 @@ void R3LIVE::print_dash_board()
     cout << out_str_line_1 << endl;
     cout << out_str_line_2 << ANSI_COLOR_RESET << "          ";
     ANSI_SCREEN_FLUSH;
+
+    if (m_map_rgb_pts.m_rgb_pts_vec.size() > 500000){
+        m_map_rgb_pts.clear();
+    }
 }
 
 void R3LIVE::set_initial_state_cov( StatesGroup &state )
@@ -1094,7 +1098,7 @@ char R3LIVE::cv_keyboard_callback()
         cout << "I capture the keyboard input!!!" << endl;
         m_mvs_recorder.export_to_mvs( m_map_rgb_pts );
         // m_map_rgb_pts.save_and_display_pointcloud( m_map_output_dir, std::string("/rgb_pt"), std::max(m_pub_pt_minimum_views, 5) );
-        m_map_rgb_pts.save_and_display_pointcloud( m_map_output_dir, std::string("/rgb_pt"), m_pub_pt_minimum_views  );
+        m_map_rgb_pts.save_and_display_pointcloud( m_map_output_dir, std::string("/rgb_pt"), m_pub_pt_minimum_views , show_gui );
     }
     return c;
 }

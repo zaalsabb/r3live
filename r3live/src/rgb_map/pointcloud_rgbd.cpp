@@ -651,12 +651,14 @@ void Global_map::save_to_pcd(std::string dir_name, std::string _file_name, int s
     cout << "Save PCD cost time = " << tim.toc() << endl;
 }
 
-void Global_map::save_and_display_pointcloud(std::string dir_name, std::string file_name, int save_pts_with_views)
+void Global_map::save_and_display_pointcloud(std::string dir_name, std::string file_name, int save_pts_with_views, bool show_gui)
 {
     save_to_pcd(dir_name, file_name, save_pts_with_views);
     scope_color(ANSI_COLOR_WHITE_BOLD);
     cout << "========================================================" << endl;
     cout << "Open pcl_viewer to display point cloud, close the viewer's window to continue mapping process ^_^" << endl;
     cout << "========================================================" << endl;
-    system(std::string("pcl_viewer ").append(dir_name).append("/rgb_pt.pcd").c_str());
+    if (show_gui){
+        system(std::string("pcl_viewer ").append(dir_name).append("/rgb_pt.pcd").c_str());
+    }
 }
