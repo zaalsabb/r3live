@@ -152,6 +152,11 @@ void R3LIVE::print_dash_board()
     cout << out_str_line_1 << endl;
     cout << out_str_line_2 << ANSI_COLOR_RESET << "          ";
     ANSI_SCREEN_FLUSH;
+
+    if (m_map_rgb_pts.m_rgb_pts_vec.size() > maximum_map_size & maximum_map_size > -1){
+        m_map_rgb_pts.clear();
+    }
+
 }
 
 void R3LIVE::set_initial_state_cov( StatesGroup &state )
@@ -494,7 +499,7 @@ void R3LIVE::publish_camera_odom( std::shared_ptr< Image_frame > &image, double 
     eigen_q            odom_q = image->m_pose_w2c_q;
     vec_3              odom_t = image->m_pose_w2c_t;
     nav_msgs::Odometry camera_odom;
-    camera_odom.header.frame_id = "world";
+    camera_odom.header.frame_id = world_frame;
     camera_odom.child_frame_id = "/aft_mapped";
     camera_odom.header.stamp = ros::Time::now(); // ros::Time().fromSec(last_timestamp_lidar);
     camera_odom.pose.pose.orientation.x = odom_q.x();
@@ -516,11 +521,11 @@ void R3LIVE::publish_camera_odom( std::shared_ptr< Image_frame > &image, double 
     q.setY( camera_odom.pose.pose.orientation.y );
     q.setZ( camera_odom.pose.pose.orientation.z );
     transform.setRotation( q );
-    br.sendTransform( tf::StampedTransform( transform, ros::Time().fromSec( msg_time ), "world", "/camera_odom" ) );
+    br.sendTransform( tf::StampedTransform( transform, ros::Time().fromSec( msg_time ), world_frame, "/camera_odom" ) );
 
     geometry_msgs::PoseStamped msg_pose;
     msg_pose.header.stamp = ros::Time().fromSec( msg_time );
-    msg_pose.header.frame_id = "world";
+    msg_pose.header.frame_id = world_frame;
     msg_pose.pose.orientation.x = odom_q.x();
     msg_pose.pose.orientation.y = odom_q.y();
     msg_pose.pose.orientation.z = odom_q.z();
@@ -528,7 +533,7 @@ void R3LIVE::publish_camera_odom( std::shared_ptr< Image_frame > &image, double 
     msg_pose.pose.position.x = odom_t( 0 );
     msg_pose.pose.position.y = odom_t( 1 );
     msg_pose.pose.position.z = odom_t( 2 );
-    camera_path.header.frame_id = "world";
+    camera_path.header.frame_id = world_frame;
     camera_path.poses.push_back( msg_pose );
     pub_path_cam.publish( camera_path );
 }
@@ -553,7 +558,7 @@ void R3LIVE::publish_track_pts( Rgbmap_tracker &tracker )
     sensor_msgs::PointCloud2 ros_pc_msg;
     pcl::toROSMsg( pointcloud_for_pub, ros_pc_msg );
     ros_pc_msg.header.stamp = ros::Time::now(); //.fromSec(last_timestamp_lidar);
-    ros_pc_msg.header.frame_id = "world";       // world; camera_init
+    ros_pc_msg.header.frame_id = world_frame;       // world; camera_init
     m_pub_visual_tracked_3d_pts.publish( ros_pc_msg );
 }
 
@@ -1011,7 +1016,7 @@ void R3LIVE::service_pub_rgb_maps()
             {
                 pub_idx_size = 0;
                 pcl::toROSMsg( pc_rgb, ros_pc_msg );
-                ros_pc_msg.header.frame_id = "world";       
+                ros_pc_msg.header.frame_id = world_frame;       
                 ros_pc_msg.header.stamp = ros::Time::now(); 
                 if ( m_pub_rgb_render_pointcloud_ptr_vec[ cur_topic_idx ] == nullptr )
                 {
@@ -1028,7 +1033,7 @@ void R3LIVE::service_pub_rgb_maps()
 
         pc_rgb.resize( pub_idx_size );
         pcl::toROSMsg( pc_rgb, ros_pc_msg );
-        ros_pc_msg.header.frame_id = "world";       
+        ros_pc_msg.header.frame_id = world_frame;       
         ros_pc_msg.header.stamp = ros::Time::now(); 
         if ( m_pub_rgb_render_pointcloud_ptr_vec[ cur_topic_idx ] == nullptr )
         {
@@ -1076,7 +1081,7 @@ void R3LIVE::publish_render_pts( ros::Publisher &pts_pub, Global_map &m_map_rgb_
         }
     }
     pcl::toROSMsg( pc_rgb, ros_pc_msg );
-    ros_pc_msg.header.frame_id = "world";       // world; camera_init
+    ros_pc_msg.header.frame_id = world_frame;       // world; camera_init
     ros_pc_msg.header.stamp.fromSec(last_timestamp_lidar);
     pts_pub.publish( ros_pc_msg );
 }

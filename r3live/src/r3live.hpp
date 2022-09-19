@@ -265,6 +265,7 @@ public:
     double m_tracker_maximum_depth = 200;
     int m_if_record_mvs = 0;
     cv::Mat intrinsic, dist_coeffs;
+    string world_frame = "world";
 
     mat_3_3 m_inital_rot_ext_i2c;
     vec_3  m_inital_pos_ext_i2c;
@@ -284,7 +285,8 @@ public:
 
     // show gui panel when r3live is running
     bool show_gui;
-    
+    int maximum_map_size;
+
     // VIO subsystem related
     void load_vio_parameters();
     void set_initial_camera_parameter(StatesGroup &state,
@@ -334,7 +336,8 @@ public:
         std::string LiDAR_pointcloud_topic, IMU_topic, IMAGE_topic, IMAGE_topic_compressed;
 
         get_ros_parameter(m_ros_node_handle, "show_gui", show_gui, true );
-        
+        get_ros_parameter(m_ros_node_handle, "maximum_map_size", maximum_map_size, -1 );
+
         get_ros_parameter<std::string>(m_ros_node_handle, "/LiDAR_pointcloud_topic", LiDAR_pointcloud_topic, std::string("/laser_cloud_flat") );
         get_ros_parameter<std::string>(m_ros_node_handle, "/IMU_topic", IMU_topic, std::string("/livox/imu") );
         get_ros_parameter<std::string>(m_ros_node_handle, "/Image_topic", IMAGE_topic, std::string("/camera/image_color") );
@@ -379,6 +382,9 @@ public:
             get_ros_parameter( m_ros_node_handle, "r3live_common/estimate_i2c_extrinsic", m_if_estimate_i2c_extrinsic, 0 );
             get_ros_parameter( m_ros_node_handle, "r3live_common/estimate_intrinsic", m_if_estimate_intrinsic, 0 );
             get_ros_parameter( m_ros_node_handle, "r3live_common/maximum_vio_tracked_pts", m_maximum_vio_tracked_pts, 600 );
+
+            get_ros_parameter<std::string>(m_ros_node_handle, "r3live_common/world_frame", world_frame, std::string("world") );
+
         }
         if ( 1 )
         {

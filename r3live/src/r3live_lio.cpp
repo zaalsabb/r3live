@@ -494,7 +494,7 @@ int R3LIVE::service_LIO_update()
 {
     nav_msgs::Path path;
     path.header.stamp = ros::Time::now();
-    path.header.frame_id = "/world";
+    path.header.frame_id = world_frame;
     /*** variables definition ***/
     Eigen::Matrix< double, DIM_OF_STATES, DIM_OF_STATES > G, H_T_H, I_STATE;
     G.setZero();
@@ -642,7 +642,7 @@ int R3LIVE::service_LIO_update()
                     pcl::toROSMsg( *featsFromMap, laserCloudMap );
                     laserCloudMap.header.stamp = ros::Time::now(); // ros::Time().fromSec(last_timestamp_lidar);
                     // laserCloudMap.header.stamp.fromSec(Measures.lidar_end_time); // ros::Time().fromSec(last_timestamp_lidar);
-                    laserCloudMap.header.frame_id = "world";
+                    laserCloudMap.header.frame_id = world_frame;
                     pubLaserCloudMap.publish( laserCloudMap );
                 }
 
@@ -960,7 +960,7 @@ int R3LIVE::service_LIO_update()
                 pcl::toROSMsg( *laserCloudFullResColor, laserCloudFullRes3 );
                 laserCloudFullRes3.header.stamp.fromSec(last_timestamp_lidar);
                 // laserCloudFullRes3.header.stamp.fromSec( Measures.lidar_end_time );
-                laserCloudFullRes3.header.frame_id = "world"; // world; camera_init
+                laserCloudFullRes3.header.frame_id = world_frame; // world; camera_init
                 pubLaserCloudFullRes.publish( laserCloudFullRes3 );
 
                 sensor_msgs::PointCloud2 laserCloudFullRes3_body;
@@ -1011,7 +1011,7 @@ int R3LIVE::service_LIO_update()
                 pcl::toROSMsg( *laserCloudFullResColor, laserCloudFullRes3 );
                 // laserCloudFullRes3.header.stamp = ros::Time::now(); //.fromSec(last_timestamp_lidar);
                 laserCloudFullRes3.header.stamp.fromSec( Measures.lidar_end_time ); //.fromSec(last_timestamp_lidar);
-                laserCloudFullRes3.header.frame_id = "world";
+                laserCloudFullRes3.header.frame_id = world_frame;
                 pubLaserCloudEffect.publish( laserCloudFullRes3 );
             }
 
@@ -1019,12 +1019,12 @@ int R3LIVE::service_LIO_update()
             sensor_msgs::PointCloud2 laserCloudMap;
             pcl::toROSMsg( *featsFromMap, laserCloudMap );
             laserCloudMap.header.stamp.fromSec( Measures.lidar_end_time ); // ros::Time().fromSec(last_timestamp_lidar);
-            laserCloudMap.header.frame_id = "world";
+            laserCloudMap.header.frame_id = world_frame;
             pubLaserCloudMap.publish( laserCloudMap );
 
             /******* Publish Odometry ******/
             geometry_msgs::Quaternion geoQuat = tf::createQuaternionMsgFromRollPitchYaw( euler_cur( 0 ), euler_cur( 1 ), euler_cur( 2 ) );
-            odomAftMapped.header.frame_id = "world";
+            odomAftMapped.header.frame_id = world_frame;
             odomAftMapped.child_frame_id = "/aft_mapped";
             // odomAftMapped.header.stamp.fromSec(last_timestamp_lidar);
             odomAftMapped.header.stamp.fromSec(Measures.lidar_end_time);
@@ -1048,7 +1048,7 @@ int R3LIVE::service_LIO_update()
             q.setY( odomAftMapped.pose.pose.orientation.y );
             q.setZ( odomAftMapped.pose.pose.orientation.z );
             transform.setRotation( q );
-            br.sendTransform( tf::StampedTransform( transform, ros::Time().fromSec( Measures.lidar_end_time ), "world", "/aft_mapped" ) );
+            br.sendTransform( tf::StampedTransform( transform, ros::Time().fromSec( Measures.lidar_end_time ), world_frame, "/aft_mapped" ) );
 
             msg_body_pose.header.stamp = ros::Time::now();
             msg_body_pose.header.frame_id = "/camera_odom_frame";
@@ -1061,7 +1061,7 @@ int R3LIVE::service_LIO_update()
             msg_body_pose.pose.orientation.w = geoQuat.w;
 
             /******* Publish Path ********/
-            msg_body_pose.header.frame_id = "world";
+            msg_body_pose.header.frame_id = world_frame;
             if ( frame_num > 10 )
             {
                 path.poses.push_back( msg_body_pose );
