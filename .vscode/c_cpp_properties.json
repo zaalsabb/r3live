@@ -1,0 +1,50 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/zaid/catkin_ws_py3/devel/include/**",
+        "/home/zaid/catkin_ws/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/zaid/catkin_ws/src/SC-A-LOAM/include/**",
+        "/home/zaid/catkin_ws/src/beam_simulation/include/**",
+        "/home/zaid/catkin_ws_py3/src/vision_opencv/cv_bridge/include/**",
+        "/home/zaid/catkin_ws_py3/src/easy_camera_lidar_calibration/include/**",
+        "/home/zaid/catkin_ws_py3/src/vision_opencv/image_geometry/include/**",
+        "/home/zaid/catkin_ws/src/image_undistort/include/**",
+        "/home/zaid/catkin_ws/src/kobuki_bumper2pc/include/**",
+        "/home/zaid/catkin_ws/src/kobuki_gazebo_plugins/include/**",
+        "/home/zaid/catkin_ws/src/kobuki_keyop/include/**",
+        "/home/zaid/catkin_ws/src/kobuki_node/include/**",
+        "/home/zaid/catkin_ws/src/kobuki_safety_controller/include/**",
+        "/home/zaid/catkin_ws_py3/src/mec/lidar2depth/include/**",
+        "/home/zaid/catkin_ws/src/core_perception/points_preprocessor/include/**",
+        "/home/zaid/catkin_ws_py3/src/geometry2/tf2/include/**",
+        "/home/zaid/catkin_ws_py3/src/geometry2/tf2_bullet/include/**",
+        "/home/zaid/catkin_ws_py3/src/geometry2/tf2_eigen/include/**",
+        "/home/zaid/catkin_ws_py3/src/geometry2/tf2_geometry_msgs/include/**",
+        "/home/zaid/catkin_ws_py3/src/geometry2/tf2_kdl/include/**",
+        "/home/zaid/catkin_ws_py3/src/geometry2/tf2_msgs/include/**",
+        "/home/zaid/catkin_ws_py3/src/geometry2/tf2_ros/include/**",
+        "/home/zaid/catkin_ws_py3/src/geometry2/tf2_sensor_msgs/include/**",
+        "/home/zaid/catkin_ws/src/turtlebot_apps/turtlebot_actions/include/**",
+        "/home/zaid/catkin_ws/src/velodyne-1/velodyne_driver/include/**",
+        "/home/zaid/catkin_ws/src/velodyne-1/velodyne_laserscan/include/**",
+        "/home/zaid/catkin_ws/src/velodyne-1/velodyne_pcl/include/**",
+        "/home/zaid/catkin_ws/src/velodyne-1/velodyne_pointcloud/include/**",
+        "/home/zaid/catkin_ws/src/yocs_cmd_vel_mux/include/**",
+        "/home/zaid/catkin_ws/src/yocs_controllers/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

@@ -432,7 +432,7 @@ void   R3LIVE::process_image( cv::Mat &temp_img, double msg_time )
         buffer_max_frame = m_queue_image_with_pose.size();
     }
 
-    // cout << "Image queue size = " << m_queue_image_with_pose.size() << endl;
+    cout << "Image queue size = " << m_queue_image_with_pose.size() << endl;
 }
 
 void R3LIVE::load_vio_parameters()

@@ -996,6 +996,11 @@ int R3LIVE::service_LIO_update()
                         m_append_global_map_point_step );
                 }
                 stastic_cost_time.push_back( tim.toc( " ", 0 ) );
+
+
+                // attempt loop closure here!!
+
+
             }
             if(0) // Uncomment this code scope to enable the publish of effective points.
             {
