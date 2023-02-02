@@ -60,9 +60,15 @@ endif()
 
 include_directories(${catkin_INCLUDE_DIRS})
 
+add_service_files(
+  FILES
+  SaveMap.srv
+)
+
 generate_messages(
  DEPENDENCIES
  geometry_msgs
+ std_msgs
 )
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)

@@ -73,6 +73,8 @@ Dr. Fu Zhang < fuzhang@hku.hk >.
 #include <tf/transform_datatypes.h>
 #include <tf/transform_broadcaster.h>
 
+#include <r3live/SaveMap.h>
+
 #include <geometry_msgs/Vector3.h>
 #include <FOV_Checker/FOV_Checker.h>
 
@@ -206,6 +208,7 @@ public:
     ros::Subscriber sub_pcl;
     ros::Subscriber sub_imu;
     ros::Subscriber sub_img, sub_img_comp;
+    ros::ServiceServer saveMap;
 
     ros::Publisher pub_track_img, pub_raw_img;
     ros::Publisher pub_odom_cam, pub_path_cam;
@@ -310,6 +313,7 @@ public:
     void service_process_img_buffer();
     void service_pub_rgb_maps();
     char cv_keyboard_callback();
+    bool save_map_service(r3live::SaveMap::Request& req, r3live::SaveMap::Response& res);
     void set_initial_state_cov(StatesGroup &stat);
     cv::Mat generate_control_panel_img();
     // ANCHOR -  service_pub_rgb_maps
@@ -334,6 +338,8 @@ public:
         pub_odom_cam = m_ros_node_handle.advertise<nav_msgs::Odometry>("/camera_odom", 10);
         pub_path_cam = m_ros_node_handle.advertise<nav_msgs::Path>("/camera_path", 10);
         std::string LiDAR_pointcloud_topic, IMU_topic, IMAGE_topic, IMAGE_topic_compressed;
+
+        saveMap = m_ros_node_handle.advertiseService("/r3live/save_map", &R3LIVE::save_map_service, this);            
 
         get_ros_parameter(m_ros_node_handle, "show_gui", show_gui, true );
         get_ros_parameter(m_ros_node_handle, "maximum_map_size", maximum_map_size, -1 );

@@ -1095,10 +1095,17 @@ char R3LIVE::cv_keyboard_callback()
         scope_color( ANSI_COLOR_GREEN_BOLD );
         cout << "I capture the keyboard input!!!" << endl;
         m_mvs_recorder.export_to_mvs( m_map_rgb_pts );
-        // m_map_rgb_pts.save_and_display_pointcloud( m_map_output_dir, std::string("/rgb_pt"), std::max(m_pub_pt_minimum_views, 5) );
-        m_map_rgb_pts.save_and_display_pointcloud( m_map_output_dir, std::string("/rgb_pt"), m_pub_pt_minimum_views  );
+        m_map_rgb_pts.save_and_display_pointcloud( m_map_output_dir, std::string("/rgb_pt"), m_pub_pt_minimum_views );
     }
     return c;
+}
+
+
+bool R3LIVE::save_map_service(r3live::SaveMap::Request& req, r3live::SaveMap::Response& res)
+{
+    m_map_rgb_pts.save_and_display_pointcloud( m_map_output_dir, std::string("/rgb_pt"), m_pub_pt_minimum_views, false );
+    res.success = true;
+    return true;
 }
 
 // ANCHOR -  service_VIO_update
